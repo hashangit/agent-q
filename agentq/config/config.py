@@ -27,3 +27,19 @@ if not os.path.exists(USER_PREFERENCES_PATH):
 if not os.path.exists(PROJECT_TEMP_PATH):
     os.makedirs(PROJECT_TEMP_PATH)
     print(f"Created temp folder at: {PROJECT_TEMP_PATH}")
+
+# Model configuration
+OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o-2024-08-06")
+OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434/v1")
+OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "llama3.2:latest")
+
+# Provider configuration
+PROVIDER = os.environ.get("PROVIDER", "ollama")  # Can be "openai" or "ollama"
+
+def get_model_for_provider():
+    if PROVIDER == "openai":
+        return OPENAI_MODEL
+    elif PROVIDER == "ollama":
+        return OLLAMA_MODEL
+    else:
+        raise ValueError(f"Unsupported provider: {PROVIDER}")

@@ -1,8 +1,7 @@
 from enum import Enum, IntEnum
 from typing import List, Literal, Optional, Union
 
-from pydantic import BaseModel
-from pydantic.fields import Field
+from pydantic import BaseModel, Field
 
 
 # Global
@@ -21,15 +20,11 @@ class ActionType(str, Enum):
     GOTO_URL = "GOTO_URL"
     ENTER_TEXT_AND_CLICK = "ENTER_TEXT_AND_CLICK"
     SOLVE_CAPTCHA = "SOLVE_CAPTCHA"
-    # GET_DOM_TEXT_CONTENT = "GET_DOM_TEXT_CONTENT"
-    # GET_DOM_INPUT_FILEDS = "GET_DOM_INPUT_FILEDS"
-    # GET_DOM_ALL_CONTENTS = "GET_DOM_ALL_CONTENTS"
-    # GET_CURRENT_URL = "GET_CURRENT_URL"
 
 
 class ClickAction(BaseModel):
     type: Literal[ActionType.CLICK] = Field(
-        description="""Executes a click action on the element matching the given mmid attribute value. MMID is always a number. Returns Success if click was successful or appropriate error message if the element could not be clicked."""
+        description="Executes a click action on the element matching the given mmid attribute value. MMID is always a number. Returns Success if click was successful or appropriate error message if the element could not be clicked."
     )
     mmid: int = Field(
         description="The mmid number of the element that needs to be clicked e.g. 114. mmid will always be a number"
@@ -41,8 +36,7 @@ class ClickAction(BaseModel):
 
 class TypeAction(BaseModel):
     type: Literal[ActionType.TYPE] = Field(
-        description="""Single enter given text in the DOM element matching the given mmid attribute value. This will only enter the text and not press enter or anything else.
-   Returns Success if text entry was successful or appropriate error message if text could not be entered."""
+        description="Single enter given text in the DOM element matching the given mmid attribute value. This will only enter the text and not press enter or anything else. Returns Success if text entry was successful or appropriate error message if text could not be entered."
     )
     mmid: int = Field(
         description="The mmid number of the element that needs to be clicked e.g. 114. mmid will always be a number"
@@ -66,7 +60,7 @@ class GotoAction(BaseModel):
 
 class EnterTextAndClickAction(BaseModel):
     type: Literal[ActionType.ENTER_TEXT_AND_CLICK] = Field(
-        description="""Enters text into a specified element and clicks another element, both identified by their mmid. Ideal for seamless actions like submitting search queries, this integrated approach ensures superior performance over separate text entry and click commands. Successfully completes when both actions are executed without errors, returning True; otherwise, it provides False or an explanatory message of any failure encountered."""
+        description="Enters text into a specified element and clicks another element, both identified by their mmid. Ideal for seamless actions like submitting search queries, this integrated approach ensures superior performance over separate text entry and click commands. Successfully completes when both actions are executed without errors, returning True; otherwise, it provides False or an explanatory message of any failure encountered."
     )
     text_element_mmid: int = Field(
         description="The mmid number of the element where the text will be entered"
@@ -84,16 +78,14 @@ class EnterTextAndClickAction(BaseModel):
 
 class SolveCaptcha(BaseModel):
     type: Literal[ActionType.SOLVE_CAPTCHA] = Field(
-        description="""Solve captcha, enters the solve captcha into a specified element and clicks another element, both identified by their mmid. Ideal for captcha solving ,entering captcha and clicking submit.Successfully completes when all three actions are executed without errors, returning True; otherwise, it provides False or an explanatory message of any failure encountered."""
+        description="Solve captcha, enters the solve captcha into a specified element and clicks another element, both identified by their mmid. Ideal for captcha solving, entering captcha and clicking submit. Successfully completes when all three actions are executed without errors, returning True; otherwise, it provides False or an explanatory message of any failure encountered."
     )
     text_element_mmid: int = Field(
         description="The mmid number of the element where the captcha will be entered"
     )
-
     click_element_mmid: int = Field(
-        description="The mmid number of the element that will be clicked after the catcha entry to submit"
+        description="The mmid number of the element that will be clicked after the captcha entry to submit"
     )
-
     wait_before_click_execution: Optional[float] = Field(
         description="Optional wait time in seconds before executing the click event logic"
     )
@@ -104,32 +96,12 @@ class Score(IntEnum):
     PASS = 1
 
 
-# class GetDomTextAction(BaseModel):
-#     type: Literal[ActionType.GET_DOM_TEXT_CONTENT]
-
-
-# class GetDomInputsAction(BaseModel):
-#     type: Literal[ActionType.GET_DOM_INPUT_FILEDS]
-
-
-# class GetDomAllAction(BaseModel):
-#     type: Literal[ActionType.GET_DOM_ALL_CONTENTS]
-
-
-# class GetCurrentUrlAction(BaseModel):
-#     type: Literal[ActionType.GET_CURRENT_URL]
-
-
 Action = Union[
     ClickAction,
     TypeAction,
     GotoAction,
     EnterTextAndClickAction,
     SolveCaptcha,
-    # GetDomTextAction,
-    # GetDomInputsAction,
-    # GetDomAllAction,
-    # GetCurrentUrlAction,
 ]
 
 
